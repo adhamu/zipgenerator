@@ -15,6 +15,6 @@ A PHP class for creating ZIP files.
     ?>
 
 If you want to download the file as soon as it is generated instead of silently saving it to the specified location, you can do the following:
-	<?php
-    	$zip->setProcessType("stream");
+    <?php
+        $zip->setProcessType("stream");
     ?>
