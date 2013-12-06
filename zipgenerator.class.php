@@ -9,6 +9,10 @@
         private $files_to_zip;
         private $process_type;
 
+        /**
+         * Constructor will throw an exception if ZipArchive module not found
+         * @param string $filename The filename that will be used to generate the zip file
+         */
         public function __construct($filename)
         {
             if (!extension_loaded("zip") || !file_exists($source)) {
@@ -22,6 +26,10 @@
             }
         }
 
+        /**
+         * Method that will be called when all files have been added
+         * @return application/zip
+         */
         public function get()
         {
             header("Content-Type: application/zip");
@@ -31,6 +39,11 @@
             $this->finish();
         }
 
+        /**
+         * Use to add a directory of files to the zip
+         * @param string $source The source directory to add to the zip.
+         * This method works recursively through the directory
+         */
         private function addDirectoryFiles($source)
         {
             if (is_dir($source)) {
@@ -50,6 +63,10 @@
             }
         }
 
+        /**
+         * Use to add a single file to the zip
+         * @param string $source The source file to add to the zip
+         */
         private function addSingleFile($source)
         {
             if (is_file($source)) {
@@ -59,11 +76,20 @@
             }
         }
 
+        /**
+         * Cleans the filename and update backslashes to forward slashes
+         * @param  string $filename
+         * @return string sanitized $filename
+         */
         private function sanitizeFilename($filename)
         {
             return str_replace("\\", "/", $filename);
         }
 
+        /**
+         * Closes the ZipArchive buffer and either displays or downloads the zip file
+         * If it is a stream, the created zip will be deleted upon download
+         */
         private function finish()
         {
             $this->zip->close();
@@ -74,6 +100,9 @@
             }
         }
 
+        /**
+         * Set the process type to stream if user wants the file downloaded on the fly
+         */
         public function setProcessType($type)
         {
             $this->process_type = $type;
