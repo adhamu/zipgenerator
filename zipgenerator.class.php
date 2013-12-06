@@ -22,7 +22,7 @@
             }
         }
 
-        private function fileHeaders()
+        public function get()
         {
             header("Content-Type: application/zip");
             header("Content-Length: " . filesize($this->zip_filename);
@@ -64,7 +64,7 @@
             return str_replace("\\", "/", $filename);
         }
 
-        public function finish()
+        private function finish()
         {
             $this->zip->close();
 
@@ -72,11 +72,6 @@
                 readfile($this->zip_filename);
                 unlink($this->zip_filename);
             }
-        }
-
-        public function setFilename($filename)
-        {
-            $this->zip_filename = $filename;
         }
 
         public function setProcessType($type)
